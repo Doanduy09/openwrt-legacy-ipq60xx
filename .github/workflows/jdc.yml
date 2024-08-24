@@ -2,8 +2,7 @@
 # Copyright (c) 2023
 #
 
-name: G-DOCK
-
+name: jdcloud ax1800 pro
 on:
   schedule:
     - cron: '0 16 * * 2'
