@@ -24,7 +24,7 @@ on:
 permissions:
   contents: write
 env:
-  REPO_URL: git clone --depth 1 -b main --single-branch https://github.com/openwrt-ipq60xx/openwrt-legacy.git
+  REPO_URL: git clone https://github.com/openwrt-ipq60xx/openwrt-legacy.git
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config-jdc
