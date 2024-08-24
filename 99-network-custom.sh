@@ -123,13 +123,8 @@ echo "net.ipv4.ip_default_ttl=64" >> /etc/sysctl.conf
 sysctl -p
 
 
+
 # /etc/init.d/network restart
-
-uci set network.wwan.apn='m3-world' uci set network.wwan.apn='m3-world' 
-
-uci set network.wwan.apn='v-internet' uci set network.wwan.apn='v-internet' 
-
-uci set network.wwan.apn='m9-wintel' uci set network.wwan.apn='m9-wintel' 
 
 exit 0
 
