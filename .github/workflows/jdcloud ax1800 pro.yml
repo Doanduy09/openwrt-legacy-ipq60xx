@@ -1,3 +1,4 @@
+
 #
 # Copyright (c) 2023
 #
@@ -24,7 +25,7 @@ on:
 permissions:
   contents: write
 env:
-  REPO_URL: git clone https://github.com/openwrt-ipq60xx/openwrt-legacy.git jdc
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config-jdc
@@ -37,6 +38,7 @@ env:
   UPLOAD_RELEASE: true
   TZ: Asia/Ho_Chi_Minh
   GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+  custom_99: 99-network-custom.sh
 
 jobs:
   build:
@@ -73,27 +75,28 @@ jobs:
         run: |
           [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
           chmod +x $DIY_P1_SH && sed -i -e 's/\r$//' $GITHUB_WORKSPACE/$DIY_P1_SH
-          cd jdc
+          cd openwrt
           $GITHUB_WORKSPACE/$DIY_P1_SH
            git fetch origin --tags
-           git describe --tags $(git rev-list --tags --max-count=1) > jdc_version
+           git describe --tags $(git rev-list --tags --max-count=1) > immortalwrt_version
            git checkout -f $(git describe --tags $(git rev-list --tags --max-count=1))
            echo "src-git modem https://github.com/kiddin9/openwrt-packages.git" >> "feeds.conf.default"
 
 
       - name: Update feeds
-        run: cd jdc && ./scripts/feeds update -a
+        run: cd openwrt && ./scripts/feeds update -a
 
       - name: Install feeds
-        run: cd jdc && ./scripts/feeds install -a
+        run: cd openwrt && ./scripts/feeds install -a
 
       - name: Load custom configuration
         run: |
           [ -e files ] && mv files openwrt/files
           [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-          #sed -i 's/CONFIG_VERSION_NUMBER\s*=.*/CONFIG_VERSION_NUMBER=$jdc_version/g' openwrt/.config
+          #sed -i 's/CONFIG_VERSION_NUMBER\s*=.*/CONFIG_VERSION_NUMBER=$immortalwrt_version/g' openwrt/.config
           chmod +x $DIY_P2_SH && sed -i -e 's/\r$//' $GITHUB_WORKSPACE/$DIY_P2_SH
-          
+          mkdir -p openwrt/files/etc/uci-defaults
+          mv $custom_99 openwrt/files/etc/uci-defaults/99-custom
           cd openwrt
           $GITHUB_WORKSPACE/$DIY_P2_SH
 
