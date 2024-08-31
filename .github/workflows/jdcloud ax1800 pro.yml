@@ -72,14 +72,8 @@ jobs:
           $GITHUB_WORKSPACE/$DIY_P1_SH
            git fetch origin --tags
            git describe --tags $(git rev-list --tags --max-count=1) > immortalwrt_version
-           git checkout -f $(git describe --tags $(git rev-list --tags --max-count=1))
-           rm -rf feeds/packages/net/mosdns
-           rm -rf feeds/packages/net/msd_lite
-           rm -rf feeds/packages/net/smartdns
-           rm -rf feeds/luci/themes/luci-theme-argon
-           rm -rf feeds/luci/applications/luci-app-mosdns
-           rm -rf feeds/luci/applications/luci-app-netdata
-           echo "src-git modem https://github.com/kiddin9/openwrt-packages.git" >> "feeds.conf.default"
+           git checkout -f $(git describe --tags $(git rev-list --tags --max-count=1)) 
+          echo "src-git modem https://github.com/kiddin9/openwrt-packages.git" >> "feeds.conf.default"
       - name: Update feeds
         run: cd openwrt && ./scripts/feeds update -a
       - name: Install feeds
