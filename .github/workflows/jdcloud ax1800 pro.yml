@@ -23,7 +23,7 @@ on:
 permissions:
   contents: write
 env:
-  REPO_URL: https://github.com/openwrt-ipq60xx/openwrt-legacy.git openwrt
+  REPO_URL: https://github.com/immortalwrt/immortalwrt
   REPO_BRANCH: master
   FEEDS_CONF: feeds.conf.default
   CONFIG_FILE: .config-jdc
